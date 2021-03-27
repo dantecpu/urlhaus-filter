@@ -14,6 +14,9 @@ There are multiple formats available, refer to the appropriate section according
 - [BIND](#bind)
 - [Unbound](#unbound)
 - Internet Explorer -> [Tracking Protection List (IE)](#tracking-protection-list-ie)
+- [Snort2](#snort2)
+- [Snort3](#snort3)
+- [Suricata](#suricata)
 
 Not sure which format to choose? See [Compatibility](https://gitlab.com/curben/urlhaus-filter/wikis/compatibility) page in the wiki.
 
@@ -450,6 +453,122 @@ Lite version (online domains only):
 
 </details>
 
+## Snort2
+
+This ruleset includes online URLs only. Not compatible with [Snort3](#snort3).
+
+### Install
+
+```
+# Download ruleset
+curl -L "https://curben.gitlab.io/malware-filter/urlhaus-filter-snort2-online.rules" -o "/etc/snort/rules/urlhaus-filter-snort2-online.rules"
+
+# Create a new cron job for daily update
+printf '#!/bin/sh\ncurl -L "https://curben.gitlab.io/malware-filter/urlhaus-filter-snort2-online.rules" -o "/etc/snort/rules/urlhaus-filter-snort2-online.rules"\n' > /etc/cron.daily/urlhaus-filter
+
+# cron job requires execution permission
+chmod 755 /etc/cron.daily/urlhaus-filter
+
+# Configure Snort to use the ruleset
+printf "\ninclude \$RULE_PATH/urlhaus-filter-snort2-online.rules\n" >> /etc/snort/snort.conf
+```
+
+- https://curben.gitlab.io/malware-filter/urlhaus-filter-snort2-online.rules
+
+<details>
+<summary>Mirrors</summary>
+
+- https://cdn.statically.io/gl/curben/urlhaus-filter/master/urlhaus-filter-snort2-online.rules
+- https://glcdn.githack.com/curben/urlhaus-filter/raw/master/urlhaus-filter-snort2-online.rules
+- https://raw.githubusercontent.com/curbengh/urlhaus-filter/master/urlhaus-filter-snort2-online.rules
+- https://cdn.statically.io/gh/curbengh/urlhaus-filter/master/urlhaus-filter-snort2-online.rules
+- https://gitcdn.xyz/repo/curbengh/urlhaus-filter/master/urlhaus-filter-snort2-online.rules
+- https://cdn.jsdelivr.net/gh/curbengh/urlhaus-filter/urlhaus-filter-snort2-online.rules
+
+</details>
+
+## Snort3
+
+This ruleset includes online URLs only. Not compatible with [Snort2](#snort2).
+
+### Install
+
+```
+# Download ruleset
+curl -L "https://curben.gitlab.io/malware-filter/urlhaus-filter-snort3-online.rules" -o "/etc/snort/rules/urlhaus-filter-snort3-online.rules"
+
+# Create a new cron job for daily update
+printf '#!/bin/sh\ncurl -L "https://curben.gitlab.io/malware-filter/urlhaus-filter-snort3-online.rules" -o "/etc/snort/rules/urlhaus-filter-snort3-online.rules"\n' > /etc/cron.daily/urlhaus-filter
+
+# cron job requires execution permission
+chmod 755 /etc/cron.daily/urlhaus-filter
+```
+
+Configure Snort to use the ruleset:
+
+``` diff
+# /etc/snort/snort.lua
+ips =
+{
+  variables = default_variables,
++  include = 'rules/urlhaus-filter-snort3-online.rules'
+}
+```
+
+- https://curben.gitlab.io/malware-filter/urlhaus-filter-snort3-online.rules
+
+<details>
+<summary>Mirrors</summary>
+
+- https://cdn.statically.io/gl/curben/urlhaus-filter/master/urlhaus-filter-snort3-online.rules
+- https://glcdn.githack.com/curben/urlhaus-filter/raw/master/urlhaus-filter-snort3-online.rules
+- https://raw.githubusercontent.com/curbengh/urlhaus-filter/master/urlhaus-filter-snort3-online.rules
+- https://cdn.statically.io/gh/curbengh/urlhaus-filter/master/urlhaus-filter-snort3-online.rules
+- https://gitcdn.xyz/repo/curbengh/urlhaus-filter/master/urlhaus-filter-snort3-online.rules
+- https://cdn.jsdelivr.net/gh/curbengh/urlhaus-filter/urlhaus-filter-snort3-online.rules
+
+</details>
+
+## Suricata
+
+This ruleset includes online URLs only.
+
+### Install
+
+```
+# Download ruleset
+curl -L "https://curben.gitlab.io/malware-filter/urlhaus-filter-suricata-online.rules" -o "/etc/suricata/rules/urlhaus-filter-suricata-online.rules"
+
+# Create a new cron job for daily update
+printf '#!/bin/sh\ncurl -L "https://curben.gitlab.io/malware-filter/urlhaus-filter-suricata-online.rules" -o "/etc/suricata/rules/urlhaus-filter-suricata-online.rules"\n' > /etc/cron.daily/urlhaus-filter
+
+# cron job requires execution permission
+chmod 755 /etc/cron.daily/urlhaus-filter
+```
+
+Configure Suricata to use the ruleset:
+
+``` diff
+# /etc/suricata/suricata.yaml
+rule-files:
+  - local.rules
++  - urlhaus-filter-suricata-online.rules
+```
+
+- https://curben.gitlab.io/malware-filter/urlhaus-filter-suricata-online.rules
+
+<details>
+<summary>Mirrors</summary>
+
+- https://cdn.statically.io/gl/curben/urlhaus-filter/master/urlhaus-filter-suricata-online.rules
+- https://glcdn.githack.com/curben/urlhaus-filter/raw/master/urlhaus-filter-suricata-online.rules
+- https://raw.githubusercontent.com/curbengh/urlhaus-filter/master/urlhaus-filter-suricata-online.rules
+- https://cdn.statically.io/gh/curbengh/urlhaus-filter/master/urlhaus-filter-suricata-online.rules
+- https://gitcdn.xyz/repo/curbengh/urlhaus-filter/master/urlhaus-filter-suricata-online.rules
+- https://cdn.jsdelivr.net/gh/curbengh/urlhaus-filter/urlhaus-filter-suricata-online.rules
+
+</details>
+
 ## Third-party mirrors
 
 <details>
@@ -475,6 +594,9 @@ Lite version (online domains only):
 - https://gitlab.com/iosprivacy/urlhaus-filter-mirror/raw/master/urlhaus-filter-unbound-online.conf
 - https://gitlab.com/iosprivacy/urlhaus-filter-mirror/raw/master/urlhaus-filter.tpl
 - https://gitlab.com/iosprivacy/urlhaus-filter-mirror/raw/master/urlhaus-filter-online.tpl
+- https://gitlab.com/iosprivacy/urlhaus-filter-mirror/raw/master/urlhaus-filter-snort2-online.rules
+- https://gitlab.com/iosprivacy/urlhaus-filter-mirror/raw/master/urlhaus-filter-snort3-online.rules
+- https://gitlab.com/iosprivacy/urlhaus-filter-mirror/raw/master/urlhaus-filter-suricata-online.rules
 
 </details>
 
